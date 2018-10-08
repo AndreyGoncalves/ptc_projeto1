@@ -7,12 +7,12 @@ import time
 
 class estados(Enum):
 	DISC = 0
-	HAND1 = 1
-	HAND2 = 2
+	HAND1 = 1 #  em negociação para estabelecimento de conexão, quando tomou a iniciativa de estabelecê-la
+	HAND2 = 2 # em negociação para estabelecimento de conexão, quando o outro lado tomou a iniciativa
 	CON = 3
-	CHECK = 4
-	HALF1 = 5
-	HALF2 = 6
+	CHECK = 4 # aguardando resposta para Keep Alive
+	HALF1 = 5 # em estado de terminação de enlace (half-close), quando tomou a iniciativa de terminá-lo
+	HALF2 = 6 # em estado de terminação de enlace (half-close), quando o outro lado tomou a iniciativa
 
 class eventos(Enum):
 	TIMEOUT = 0
@@ -33,7 +33,7 @@ class Sessao:
 		self.estado = estados.DISC
 		self.evento = None
 		self.arq = arq
-		self.id_proto = id_proto.to_bytes(1, byteorder='big')
+		self.id_proto = id_proto.to_bytes(1, byteorder='big') # 255 no campo Proto são mensagens do gerenciamento de sessão e no campo dado terá um octeto de identificação da mensagem Ex: CR CC KR...
 		self.payload = b''
 		self.buffer = b''
 		self.n_tentativas = 0
